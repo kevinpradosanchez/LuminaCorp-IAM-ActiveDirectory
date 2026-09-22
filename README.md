@@ -20,13 +20,13 @@ Para adequar o laboratório às restrições de hardware do hypervisor físico (
 Para garantir um ambiente controlado, foi criada uma rede virtual isolada (Internal Network) denominada **LuminaCorp-Net**. Ambas as máquinas virtuais estão conectadas exclusivamente a este segmento.
 **Detalhes dos Nós:**
 - **LUMINA-DC01 (Domain Controller)**
-- SO: Windows Server 2022 Standard (Inglês)
-- IP Estático: 192.168.10.10
-- Máscara de Sub-rede: 255.255.255.0
-- DNS Preferencial: 127.0.0.1 (Loopback local)
+- - SO: Windows Server 2022 Standard (Inglês)
+- - IP Estático: 192.168.10.10
+- - Máscara de Sub-rede: 255.255.255.0
+- - DNS Preferencial: 127.0.0.1 (Loopback local)
 
 - **LUMINA-CLI01 (Client Workstation)**
-- SO: Windows 11 Enterprise (Português do Brasil)
-- IP Estático: 192.168.10.20
-- Máscara de Sub-rede: 255.255.255.0
-- DNS Preferencial: 192.168.10.10 (Aponta para o Domain Controller) 
+- - SO: Windows 11 Enterprise (Português do Brasil)
+- - IP Estático: 192.168.10.20
+- - Máscara de Sub-rede: 255.255.255.0
+- - DNS Preferencial: 192.168.10.10 (Aponta para o Domain Controller) 
