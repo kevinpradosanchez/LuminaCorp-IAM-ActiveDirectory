@@ -17,7 +17,7 @@ Para adequar o laboratório às restrições de hardware do hypervisor físico (
 * Resultado: Instalação bem-sucedida e operacional, priorizando os recursos de rede e Active Directory em detrimento do desempenho gráfico do cliente.
 
 ### 2. Configuração de Rede e Máquinas Virtuais
-Para garantir um ambiente controlado, foi criada uma rede virtual isolada (Internal Network) denominada **LuminaCorp-Net**. Ambas as máquinas virtuais estão conectadas exclusivamente a este segmento.
+Para garantir um ambiente controlado, foi criada uma rede virtual isolada (Internal Network) denominada `LuminaCorp-Net`. Ambas as máquinas virtuais estão conectadas exclusivamente a este segmento.
 **Detalhes dos Nós:**
 - **LUMINA-DC01 (Domain Controller)**
 - - SO: Windows Server 2022 Standard (Inglês)
@@ -29,4 +29,17 @@ Para garantir um ambiente controlado, foi criada uma rede virtual isolada (Inter
 - - SO: Windows 11 Enterprise (Português do Brasil)
 - - IP Estático: 192.168.10.20
 - - Máscara de Sub-rede: 255.255.255.0
-- - DNS Preferencial: 192.168.10.10 (Aponta para o Domain Controller) 
+- - DNS Preferencial: 192.168.10.10 (Aponta para o Domain Controller)
+
+### 3.Implementação do Active Directory e Hierarquia
+Foi implantada a função de **Active Directory Domain Services (AD DS)** e o servidor principal foi configurado como Controlador de Domínio. O cliente Windows 11 foi integrado com sucesso ao ambiente corporativo.
+- **Domínio Raiz**: `luminacorp.local`
+- **NetBIOS**: `LUMINACORP`
+
+#### Estrutura de Unidades Organizacionais (OUs)
+Para garantir uma administração segmentada e preparar a aplicação do Princípio do Privilégio Mínimo, foi projetada a seguinte topologia de OUs, protegidas contra exclusão acidental:
+* `LuminaCorp_Departamentos` 
+   * `TI`
+   * `Finanças`
+   * `Vendas`
+   * `Recursos Humanos`
