@@ -11,7 +11,7 @@ A LuminaCorp é uma empresa simulada. Este projeto documenta a criação do zero
 
 ## 🖥️ Arquitetura do Laboratório
 ### 🛠️Troubleshooting e Otimização de Recursos.
-ara adequar o laboratório às restrições de hardware do hypervisor físico (8 GB de RAM no total), foi implementada uma estratégia de limitação de recursos, alocando apenas 2 GB de RAM para cada máquina virtual. Visto que o Windows 11 Enterprise exige nativamente um mínimo de 4 GB de RAM e hardware TPM 2.0, aplicou-se um "Bypass" durante o Ambiente de Pré-Instalação do Windows (WinPE):
+Para adequar o laboratório às restrições de hardware do hypervisor físico (8 GB de RAM no total), foi implementada uma estratégia de limitação de recursos, alocando apenas 2 GB de RAM para cada máquina virtual. Visto que o Windows 11 Enterprise exige nativamente um mínimo de 4 GB de RAM e hardware TPM 2.0, aplicou-se um "Bypass" durante o Ambiente de Pré-Instalação do Windows (WinPE):
 * Acessou-se o console via **Shift + F10** durante o OOBE.
 * Foram injetadas chaves no registro **(HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig)**, criando os valores DWORD **BypassRAMCheck**, **BypassTPMCheck** e **BypassSecureBootCheck** definidos com o valor **1**.
 * Resultado: Instalação bem-sucedida e operacional, priorizando os recursos de rede e Active Directory em detrimento do desempenho gráfico do cliente.
