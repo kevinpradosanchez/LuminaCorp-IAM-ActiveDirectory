@@ -55,3 +55,9 @@ Foram criados Grupos de Segurança Globais dentro de cada Unidade Organizacional
 - `GG_RH_RW`
 
 As identidades não recebem permissões diretas; o acesso é concedido estritamente por meio de sua associação a esses grupos, em conformidade com os padrões de segurança corporativos.
+
+### 5.Servidor de Arquivos, GPO e Princípio do Privilégio Mínimo
+Foi configurado um servidor de arquivos centralizado, implementando o Princípio do Privilégio Mínimo (PoLP) em nível de permissões NTFS.
+- **Compartilhamento de Rede**: O grupo "Everyone" foi removido das permissões de Share, restringindo o acesso exclusivamente a "Domain Users".
+- **Permissões NTFS (Isolamento de Dados)**: A herança foi desabilitada nas pastas departamentais. Apenas os membros do grupo de segurança correspondente (ex. GG_Financas_RW) possuem permissões de modificação sobre seu respectivo diretório.
+- **Automação da Experiência do Usuário**: Foi criada a Diretiva de Grupo GPO_Unidades_Red vinculada à OU raiz de departamentos, a qual mapeia automaticamente a unidade de rede S: (\LUMINA-DC01\LuminaCorp_Datos) no momento do logon de qualquer colaborador.
