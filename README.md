@@ -1,7 +1,7 @@
 # **Projeto LuminaCorp:** Arquitetura IAM e Active Directory
 
 ## 🏢 Sobre a Empresa
-A LuminaCorp é uma empresa simulada. Este projeto documenta a criação do zero de sua infraestrutura de identidade, utilizando o Windows Server 2022 Standard Evaluation e clientes Windows 1o PRO.
+A LuminaCorp é uma empresa simulada. Este projeto documenta a criação do zero de sua infraestrutura de identidade, utilizando o Windows Server 2022 Standard Evaluation e clientes Windows 11 PRO.
 
 ## 🎯 Objetivos do Projeto
 * Implementação do Active Directory Domain Services (AD DS).
@@ -19,17 +19,17 @@ Para adequar o laboratório às restrições de hardware do hypervisor físico (
 ### 2. Configuração de Rede e Máquinas Virtuais
 Para garantir um ambiente controlado, foi criada uma rede virtual isolada (Internal Network) denominada `LuminaCorp-Net`. Ambas as máquinas virtuais estão conectadas exclusivamente a este segmento.
 **Detalhes dos Nós:**
-- **LUMINA-DC01 (Domain Controller)**
-- - SO: Windows Server 2022 Standard (Inglês)
-- - IP Estático: 192.168.10.10
-- - Máscara de Sub-rede: 255.255.255.0
-- - DNS Preferencial: 127.0.0.1 (Loopback local)
+* **LUMINA-DC01 (Domain Controller)**
+  * SO: Windows Server 2022 Standard (Inglês)
+  * IP Estático: 192.168.10.10
+  * Máscara de Sub-rede: 255.255.255.0
+  * DNS Preferencial: 127.0.0.1 (Loopback local)
 
-- **LUMINA-CLI01 (Client Workstation)**
-- - SO: Windows 11 Enterprise (Português do Brasil)
-- - IP Estático: 192.168.10.20
-- - Máscara de Sub-rede: 255.255.255.0
-- - DNS Preferencial: 192.168.10.10 (Aponta para o Domain Controller)
+* **LUMINA-CLI01 (Client Workstation)**
+  * SO: Windows 11 Enterprise (Português do Brasil)
+  * IP Estático: 192.168.10.20
+  * Máscara de Sub-rede: 255.255.255.0
+  * DNS Preferencial: 192.168.10.10 (Aponta para o Domain Controller)
 
 ### 3.Implementação do Active Directory e Hierarquia
 Foi implantada a função de **Active Directory Domain Services (AD DS)** e o servidor principal foi configurado como Controlador de Domínio. O cliente Windows 11 foi integrado com sucesso ao ambiente corporativo.
@@ -43,3 +43,15 @@ Para garantir uma administração segmentada e preparar a aplicação do Princí
    * `Finanças`
    * `Vendas`
    * `Recursos Humanos`
+
+### 4.Automação de Identidades e RBAC
+Para evitar o trabalho manual e reduzir erros humanos no processo de Joiner, foi utilizado um script em PowerShell (`CrearUsuarios.ps1`) para importar 32 colaboradores distribuídos nos quatro departamentos a partir de um arquivo CSV.
+
+### Controle de Acesso Baseado em Funções (RBAC)
+Foram criados Grupos de Segurança Globais dentro de cada Unidade Organizacional para gerenciar as permissões dos usuários nos futuros servidores de arquivos.
+- `GG_TI_RW`
+- `GG_Financas_RW`
+- `GG_Vendas_RW`
+- `GG_RH_RW`
+
+As identidades não recebem permissões diretas; o acesso é concedido estritamente por meio de sua associação a esses grupos, em conformidade com os padrões de segurança corporativos.
