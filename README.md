@@ -1,7 +1,7 @@
 # **Projeto LuminaCorp:** Arquitetura IAM e Active Directory
 
 ## 🏢 Sobre a Empresa
-A LuminaCorp é uma empresa simulada. Este projeto documenta a criação do zero de sua infraestrutura de identidade, utilizando o Windows Server 2022 Standard Evaluation e clientes Windows 11 PRO.
+A LuminaCorp é uma empresa simulada. Este projeto documenta a criação do zero de sua infraestrutura de identidade, utilizando o Windows Server 2022 Standard Evaluation e clientes Windows 11 Enterprise.
 
 ## 🎯 Objetivos do Projeto
 * Implementação do Active Directory Domain Services (AD DS).
@@ -45,7 +45,7 @@ Para garantir uma administração segmentada e preparar a aplicação do Princí
    * `Recursos Humanos`
 
 ### 4.Automação de Identidades e RBAC
-Para evitar o trabalho manual e reduzir erros humanos no processo de Joiner, foi utilizado um script em PowerShell (`CrearUsuarios.ps1`) para importar 32 colaboradores distribuídos nos quatro departamentos a partir de um arquivo CSV.
+Para evitar o trabalho manual e reduzir erros humanos no processo de Joiner, foi utilizado um script em PowerShell (`CriarUsuarios.ps1`) para importar 32 colaboradores distribuídos nos quatro departamentos a partir de um arquivo CSV.
 
 ### Controle de Acesso Baseado em Funções (RBAC)
 Foram criados Grupos de Segurança Globais dentro de cada Unidade Organizacional para gerenciar as permissões dos usuários nos futuros servidores de arquivos.
@@ -60,4 +60,4 @@ As identidades não recebem permissões diretas; o acesso é concedido estritame
 Foi configurado um servidor de arquivos centralizado, implementando o Princípio do Privilégio Mínimo (PoLP) em nível de permissões NTFS.
 - **Compartilhamento de Rede**: O grupo "Everyone" foi removido das permissões de Share, restringindo o acesso exclusivamente a "Domain Users".
 - **Permissões NTFS (Isolamento de Dados)**: A herança foi desabilitada nas pastas departamentais. Apenas os membros do grupo de segurança correspondente (ex. GG_Financas_RW) possuem permissões de modificação sobre seu respectivo diretório.
-- **Automação da Experiência do Usuário**: Foi criada a Diretiva de Grupo GPO_Unidades_Red vinculada à OU raiz de departamentos, a qual mapeia automaticamente a unidade de rede S: (\LUMINA-DC01\LuminaCorp_Datos) no momento do logon de qualquer colaborador.
+- **Automação da Experiência do Usuário**: Foi criada a Diretiva de Grupo GPO_Unidades_Rede vinculada à OU raiz de departamentos, a qual mapeia automaticamente a unidade de rede S: (\\LUMINA-DC01\LuminaCorp_Dados) no momento do logon de qualquer colaborador.
