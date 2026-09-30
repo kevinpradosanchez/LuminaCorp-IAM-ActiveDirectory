@@ -68,8 +68,10 @@ Para garantir a rastreabilidade diante de tentativas de acesso não autorizado e
 - **Listas de Controle de Acesso do Sistema (SACL)**: Uma SACL foi configurada no diretório de Finanças para monitorar silenciosamente qualquer tentativa falha de leitura por parte do grupo geral `Domain Users`.
 - **Validação Forense (Teste de Intrusão)**: Durante os testes internos, uma identidade não privilegiada (`tsilva` do departamento de TI) tentou acessar o diretório financeiro. O sistema RBAC negou o acesso em nível NTFS corretamente. Simultaneamente, a política de auditoria capturou o incidente gerando o **Event ID 4656** no log de segurança, documentando a identidade do ator, o timestamp e o objeto violado para sua análise forense.
 
-### 7.Gerenciamento de Endpoints e Restrições de Acesso (GPOs).
-Para proteger os dispositivos finais e prevenir a exfiltração de dados, foram aplicados controles em nível de máquina e de usuário:
-- **Prevenção contra Perda de Dados (DLP)**: Foi implementada a diretiva `GPO_Block_USB` vinculada aos computadores do domínio, desabilitando completamente o acesso de leitura/gravação a dispositivos de armazenamento removíveis.
-- **Padronização de Interface**: Por meio da `GPO_Desktop_Standard`, o papel de parede corporativo foi centralizado, impedindo modificações por parte do usuário.
-- **Controle de Acesso Baseado em Tempo**: O horário de logon do departamento de Finanças foi restrito exclusivamente ao horário comercial (`segunda a sexta, das 08:00 às 18:00`), mitigando o risco de acesso a dados sensíveis fora do horário operacional. A equipe de TI mantém acesso `24/7`.
+### 7.Gerenciamento de Endpoints e Prevenção contra Perda de Dados (DLP).
+Foram implementadas diretivas de segurança em nível de máquina e de usuário para fortalecer as estações de trabalho contra vulnerabilidades internas e exfiltração de informações.
+- **Bloqueio de Armazenamento Removível (DLP)**: Por meio da política de máquina `GPO_Block_USB`, restringiu-se totalmente a leitura e gravação em dispositivos de armazenamento externo (USB) em todos os computadores do domínio.
+<img width="471" height="381" alt="Captura de pantalla 2026-09-30 165032" src="https://github.com/user-attachments/assets/e0a13327-eeae-44d9-bcaf-b05ef4bc3b8b" />
+
+- **Controle de Interface e Padronização**: A política `GPO_Wallpaper_Block` foi implantada para forçar a exibição do papel de parede corporativo, desabilitando simultaneamente o acesso dos usuários ao painel de configurações de personalização do Windows 11.
+<img width="480" height="355" alt="Captura de pantalla 2026-09-30 160855" src="https://github.com/user-attachments/assets/44cba559-5af4-41c6-b148-9cd017efec7c" />
