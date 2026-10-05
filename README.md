@@ -88,3 +88,9 @@ Para mitigar o risco de acesso a informações confidenciais fora do horário op
 - **Enforcement em Nível de Domínio**: A diretiva `Network security: Force logoff when logon hours expire` foi ativada na Default Domain Policy. Isso garante que as sessões de rede SMB sejam encerradas abruptamente caso um usuário permaneça ativo após o seu horário limite, impedindo a evasão da política por meio do uso de sessões prolongadas ou tickets em cache.
 <img width="476" height="382" alt="Captura de pantalla 2026-10-05 163222" src="https://github.com/user-attachments/assets/d46c9dca-9fa7-4d8f-902a-fb802fb5c1ac" />
 
+### 9.Políticas de Senhas Granulares (FGPP).
+Em conformidade com os princípios de privilégio mínimo e segregação de controles, abandonou-se a dependência exclusiva da Default Domain Policy para o gerenciamento de credenciais, implementando Fine-Grained Password Policies (FGPP) por meio do Active Directory Administrative Center.
+- **Segregação de Requisitos (PSO)**: Foi criado o objeto de configuração `FGPP_TI_Estricto` (Precedência: 10) vinculado diretamente ao grupo de segurança global `GG_TI_RW`.
+- **Hardening de Identidades Privilegiadas**: Enquanto os usuários padrão mantêm as políticas base do domínio, o departamento de TI é forçado pelo kernel a utilizar senhas com um mínimo de 15 caracteres, rotação obrigatória a cada 60 dias e um histórico de 24 credenciais lembradas para prevenir ataques de reutilização.
+- **Validação**: As tentativas de atribuição de senhas com comprimento padrão (ex. 8-12 caracteres) a contas administrativas são bloqueadas automaticamente pelo sistema.
+<img width="377" height="265" alt="Captura de pantalla 2026-10-05 170912" src="https://github.com/user-attachments/assets/2ed16eec-9c84-400f-8e9b-8751d88bab0f" />
