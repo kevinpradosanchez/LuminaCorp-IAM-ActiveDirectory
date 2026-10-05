@@ -81,3 +81,10 @@ Foram implementadas diretivas de segurança em nível de máquina e de usuário 
 
 - **Controle de Interface e Padronização**: A política `GPO_Wallpaper_Block` foi implantada para forçar a exibição do papel de parede corporativo, desabilitando simultaneamente o acesso dos usuários ao painel de configurações de personalização do Windows 11.
 <img width="480" height="355" alt="Captura de pantalla 2026-09-30 160855" src="https://github.com/user-attachments/assets/44cba559-5af4-41c6-b148-9cd017efec7c" />
+
+### 8.Controle de Acesso Baseado em Tempo (Logon Hours) e Desconexão Forçada da Rede.
+Para mitigar o risco de acesso a informações confidenciais fora do horário operacional, foram implementados controles rigorosos de tempo respaldados por diretivas de segurança de rede.
+- **Restrição de Horários (Active Directory)**: O atributo `Logon Hours` foi configurado para os colaboradores do departamento de Vendas, permitindo a autenticação exclusivamente de segunda a sexta-feira, entre as 08:00 e as 16:00 horas. Fora desse período, o Controlador de Domínio rejeita qualquer solicitação de Ticket Granting Ticket (TGT) do Kerberos.
+- **Enforcement em Nível de Domínio**: A diretiva `Network security: Force logoff when logon hours expire` foi ativada na Default Domain Policy. Isso garante que as sessões de rede SMB sejam encerradas abruptamente caso um usuário permaneça ativo após o seu horário limite, impedindo a evasão da política por meio do uso de sessões prolongadas ou tickets em cache.
+<img width="476" height="382" alt="Captura de pantalla 2026-10-05 163222" src="https://github.com/user-attachments/assets/d46c9dca-9fa7-4d8f-902a-fb802fb5c1ac" />
+
