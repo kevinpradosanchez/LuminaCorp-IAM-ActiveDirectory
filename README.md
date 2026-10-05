@@ -15,6 +15,7 @@ Para adequar o laboratório às restrições de hardware do hypervisor físico (
 * Acessou-se o console via **Shift + F10** durante o OOBE.
 * Foram injetadas chaves no registro **(HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig)**, criando os valores DWORD **BypassRAMCheck**, **BypassTPMCheck** e **BypassSecureBootCheck** definidos com o valor **1**.
 * Resultado: Instalação bem-sucedida e operacional, priorizando os recursos de rede e Active Directory em detrimento do desempenho gráfico do cliente.
+<img width="319" height="270" alt="Captura de pantalla 2026-09-21 160739" src="https://github.com/user-attachments/assets/6d308a51-5d21-4247-9f92-d4d7fc992147" />
 
 ### 2. Configuração de Rede e Máquinas Virtuais.
 Para garantir um ambiente controlado, foi criada uma rede virtual isolada (Internal Network) denominada `LuminaCorp-Net`. Ambas as máquinas virtuais estão conectadas exclusivamente a este segmento.
@@ -30,11 +31,13 @@ Para garantir um ambiente controlado, foi criada uma rede virtual isolada (Inter
   * IP Estático: 192.168.10.20
   * Máscara de Sub-rede: 255.255.255.0
   * DNS Preferencial: 192.168.10.10 (Aponta para o Domain Controller)
+<img width="2580" height="3224" alt="20261005_130706" src="https://github.com/user-attachments/assets/2bde62e3-4719-4d2e-b542-27a0a247e080" />
 
 ### 3.Implementação do Active Directory e Hierarquia.
 Foi implantada a função de **Active Directory Domain Services (AD DS)** e o servidor principal foi configurado como Controlador de Domínio. O cliente Windows 11 foi integrado com sucesso ao ambiente corporativo.
 - **Domínio Raiz**: `luminacorp.local`
 - **NetBIOS**: `LUMINACORP`
+<img width="954" height="698" alt="Captura de pantalla 2026-09-22 173008" src="https://github.com/user-attachments/assets/04f59a75-150c-43fe-9b51-369ab7c1f94b" />
 
 #### Estrutura de Unidades Organizacionais (OUs)
 Para garantir uma administração segmentada e preparar a aplicação do Princípio do Privilégio Mínimo, foi projetada a seguinte topologia de OUs, protegidas contra exclusão acidental:
@@ -43,6 +46,7 @@ Para garantir uma administração segmentada e preparar a aplicação do Princí
    * `Finanças`
    * `Vendas`
    * `Recursos Humanos`
+<img width="274" height="232" alt="Captura de pantalla 2026-10-05 144509" src="https://github.com/user-attachments/assets/8658a06c-1c84-4591-8887-2bbc1a3fd7f1" />
 
 ### 4.Automação de Identidades e RBAC.
 Para evitar o trabalho manual e reduzir erros humanos no processo de Joiner, foi utilizado um script em PowerShell (`CriarUsuarios.ps1`) para importar 32 colaboradores distribuídos nos quatro departamentos a partir de um arquivo CSV.
@@ -61,12 +65,14 @@ Foi configurado um servidor de arquivos centralizado, implementando o Princípio
 - **Compartilhamento de Rede**: O grupo "Everyone" foi removido das permissões de Share, restringindo o acesso exclusivamente a "Domain Users".
 - **Permissões NTFS (Isolamento de Dados)**: A herança foi desabilitada nas pastas departamentais. Apenas os membros do grupo de segurança correspondente (ex. GG_Financas_RW) possuem permissões de modificação sobre seu respectivo diretório.
 - **Automação da Experiência do Usuário**: Foi criada a Diretiva de Grupo GPO_Unidades_Rede vinculada à OU raiz de departamentos, a qual mapeia automaticamente a unidade de rede S: (\\LUMINA-DC01\LuminaCorp_Dados) no momento do logon de qualquer colaborador.
+<img width="476" height="347" alt="Captura de pantalla 2026-09-24 144150" src="https://github.com/user-attachments/assets/8f9be417-bfeb-435e-8f83-cef6e46df09b" />
 
 ### 6.Auditoria de Segurança (SACL) e Resposta a Incidentes.
 Para garantir a rastreabilidade diante de tentativas de acesso não autorizado e cumprir as normativas de proteção de dados, foi implementada uma política de auditoria rigorosa sobre os diretórios departamentais sensíveis.
 - **Diretiva de Grupo (GPO)**: A política `GPO_Audit_FSRM` foi implantada na OU de Domain Controllers, habilitando a subcategoria de auditoria avançada `Audit File System` exclusivamente para eventos de falha (Failure).
 - **Listas de Controle de Acesso do Sistema (SACL)**: Uma SACL foi configurada no diretório de Finanças para monitorar silenciosamente qualquer tentativa falha de leitura por parte do grupo geral `Domain Users`.
 - **Validação Forense (Teste de Intrusão)**: Durante os testes internos, uma identidade não privilegiada (`tsilva` do departamento de TI) tentou acessar o diretório financeiro. O sistema RBAC negou o acesso em nível NTFS corretamente. Simultaneamente, a política de auditoria capturou o incidente gerando o **Event ID 4656** no log de segurança, documentando a identidade do ator, o timestamp e o objeto violado para sua análise forense.
+<img width="481" height="305" alt="Captura de pantalla 2026-09-24 150613" src="https://github.com/user-attachments/assets/e06aadab-73c5-4d31-9798-0e9c32b6cbcf" />
 
 ### 7.Gerenciamento de Endpoints e Prevenção contra Perda de Dados (DLP).
 Foram implementadas diretivas de segurança em nível de máquina e de usuário para fortalecer as estações de trabalho contra vulnerabilidades internas e exfiltração de informações.
