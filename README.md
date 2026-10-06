@@ -94,3 +94,12 @@ Em conformidade com os princípios de privilégio mínimo e segregação de cont
 - **Hardening de Identidades Privilegiadas**: Enquanto os usuários padrão mantêm as políticas base do domínio, o departamento de TI é forçado pelo kernel a utilizar senhas com um mínimo de 15 caracteres, rotação obrigatória a cada 60 dias e um histórico de 24 credenciais lembradas para prevenir ataques de reutilização.
 - **Validação**: As tentativas de atribuição de senhas com comprimento padrão (ex. 8-12 caracteres) a contas administrativas são bloqueadas automaticamente pelo sistema.
 <img width="377" height="265" alt="Captura de pantalla 2026-10-05 170912" src="https://github.com/user-attachments/assets/2ed16eec-9c84-400f-8e9b-8751d88bab0f" />
+
+### 10.Hardening de Endpoints e Restrição de Consoles (Security Filtering).
+Para minimizar a superfície de ataque e prevenir modificações não autorizadas no sistema operacional local por parte de usuários padrão, foram implementadas políticas rigorosas de restrição de ferramentas administrativas, aplicando o princípio de privilégios mínimos.
+- **Bloqueio de Execução**: Por meio da diretiva `GPO_Hardening_Endpoints`, desabilitou-se o acesso ao `cmd.exe`, `powershell.exe`, `powershell_ise.exe` e `regedit.exe` nas estações de trabalho do domínio. Também foi bloqueado o processamento de scripts de comandos.
+- **Exclusão por Filtro de Segurança (Security Filtering)**: Utilizou-se a delegação avançada do Active Directory para aplicar uma regra de negação explícita (Deny: Apply Group Policy) ao grupo de segurança de infraestrutura (`GG_TI_RW`). Isso garante que a equipe técnica conserve suas ferramentas operacionais intactas sem deixar o sistema vulnerável para o restante da corporação.
+**Validação do Controle de Acesso:**
+-**Teste Negativo (Usuário Padrão)**: Ao fazer logon com um usuário do departamento de Vendas (`gpereira`), o sistema operacional bloqueia interativamente a execução do console de comandos, exibindo uma mensagem de restrição administrativa.
+-**Teste Positivo (Usuário Privilegiado)**: Ao fazer logon com um membro da equipe de TI (`earaujo`), a regra de negação isenta o perfil da GPO, permitindo a abertura nativa do `cmd` e `powershell` para tarefas de suporte.
+<img width="2160" height="3840" alt="unnamed" src="https://github.com/user-attachments/assets/4e1c4bc8-8586-4030-a9eb-496b5c701eca" />
